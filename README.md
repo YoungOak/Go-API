@@ -3,6 +3,7 @@
 The Cars API is designed to manage and retrieve information about cars. It provides capabilities to add new cars, retrieve specific cars by their ID, list all cars, and update existing car records.
 
 ## Endpoints:
+
 * GET /cars: List all the cars in the database.
 * GET /car?id={id}: Retrieve details of a specific car by its ID.
 * POST /car: Add a new car to the database.
@@ -23,6 +24,7 @@ sequenceDiagram
 ```
 
 ## Data Model:
+
 ```mermaid
 classDiagram
     class CarRecord {
@@ -44,13 +46,13 @@ API will not save data past its lifetime.
 
 To run:
 
-``` bash
+```bash
 go run ./app
 ```
 
 To test:
 
-``` bash
+```bash
 go test ./...
 ```
 
@@ -58,5 +60,40 @@ To run integration tests:
 
 ```bash
 go run ./app &
-go test -tags=integration
+INTEGRATION=1 go test ./tests
+
 ```
+
+A docker container with the image can be used to run the api. Image should weigh about 130MB
+
+```bash
+docker build -t api:test .
+```
+
+Then to run it:
+```bash
+docker run -it --rm -p 8080:8080 api:test
+```
+
+And then run in another terminal:
+
+```bash
+INTEGRATION=1 go test ./tests
+
+```
+
+Example Server output from tests:
+```
+{"time":"2023-08-16T21:37:17.739972853Z","level":"INFO","msg":"Starting server","Address":":8080"}
+{"time":"2023-08-16T21:37:28.903381965Z","level":"INFO","msg":"added new car with id: 'test-car-1'"}
+{"time":"2023-08-16T21:37:28.90414377Z","level":"INFO","msg":"listing all 1 cars"}
+{"time":"2023-08-16T21:37:28.904557278Z","level":"INFO","msg":"found car with id: 'test-car-1'"}
+{"time":"2023-08-16T21:37:28.904890548Z","level":"INFO","msg":"updated car with id: 'test-car-1'"}
+```
+
+## TODOS:
+
+- Improve documentation and diagrams
+- Improve unit-tests cases
+- Add CICD pipeline to run unit-tests & integration-tests on push to branch.
+- Implement data persistent storage

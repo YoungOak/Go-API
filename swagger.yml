@@ -1,0 +1,123 @@
+openapi: 3.0.0
+info:
+  title: Cars API
+  version: 1.0.0
+paths:
+  /cars:
+    get:
+      summary: Get all cars
+      responses:
+        '200':
+          description: A list of cars
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarRecord'
+        '500':
+          description: unexpected internal error, please retry later
+
+  /car:
+    get:
+      summary: Get a specific car by ID
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+            example: "12345"
+      responses:
+        '200':
+          description: A specific car record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarRecord'
+        '400':
+          description: Invalid or missing field error
+        '404':
+          description: Car not found
+        '500':
+          description: unexpected internal error, please retry later
+
+    post:
+      summary: Add a new car
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarRecord'
+      responses:
+        '202':
+          description: Car added successfully
+        '400':
+          description: Invalid or missing field error or car already exists
+        '500':
+          description: unexpected internal error, please retry later
+
+    put:
+      summary: Update an existing car
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarRecord'
+      responses:
+        '202':
+          description: Car updated successfully
+        '400':
+          description: Invalid or missing field error
+        '404':
+          description: Car not found
+        '500':
+          description: unexpected internal error, please retry later
+
+components:
+  schemas:
+    CarRecord:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "12345"
+        make:
+          type: string
+          example: "Toyota"
+        model:
+          type: string
+          example: "Camry"
+        category:
+          type: string
+          example: "Sedan"
+        package:
+          type: string
+          example: "Sport"
+        color:
+          type: string
+          example: "Red"
+        year:
+          type: integer
+          format: int32
+          example: 2020
+        mileage:
+          type: integer
+          format: int32
+          example: 25000
+        price:
+          type: integer
+          format: int32
+          example: 20000
+      required:
+        - id
+        - make
+        - model
+        - category
+        - package
+        - color
+        - year
+        - mileage
+        - price

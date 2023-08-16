@@ -1,6 +1,7 @@
 package server
 
 import (
+	"log/slog"
 	"net/http"
 )
 
@@ -31,6 +32,6 @@ func (r *router) Serve() error {
 		Addr:    r.address,
 		Handler: r.router,
 	}
-
+	slog.Info("Starting server", "Address", r.address)
 	return server.ListenAndServe()
 }

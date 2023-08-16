@@ -1,8 +1,10 @@
-FROM docker pull golang:1.21.0-bullseye AS builder
+FROM golang:1.21.0-bullseye AS builder
 
-COPY . .
+COPY . /api
 
-RUN go build ./app -o /app
+WORKDIR /api/
+
+RUN go build -o /app /api/app/ 
 
 FROM debian:11 AS runner
 
