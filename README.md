@@ -9,33 +9,33 @@ The Cars API is designed to manage and retrieve information about cars. It provi
 * PUT /car: Update details of an existing car.
 
 ```mermaid
-graph TD;
-    A[Client] --> B(GET /cars)
-    A --> C(GET /car?id={id})
-    A --> D(POST /car)
-    A --> E(PUT /car)
-    B --> F[Return all cars]
-    C --> G[Return car by ID]
-    D --> H[Add new car]
-    E --> I[Update existing car]
-
+sequenceDiagram
+    participant Client as Client
+    participant Server as Server
+    Client->>Server: GET /cars
+    Server-->>Client: Returns list of all cars
+    Client->>Server: GET /car?id={id}
+    Server-->>Client: Returns car by ID or error message
+    Client->>Server: POST /car (with car details in body)
+    Server-->>Client: Responds with success or error message
+    Client->>Server: PUT /car (with car details in body)
+    Server-->>Client: Responds with update confirmation or error message
 ```
 
 ## Data Model:
 ```mermaid
 classDiagram
     class CarRecord {
-        -ID : string
-        -Make : string
-        -Model : string
-        -Category : string
-        -Package : string
-        -Color : string
-        -Year : int
-        -Mileage : int
-        -Price : int
+        +ID : string
+        +Make : string
+        +Model : string
+        +Category : string
+        +Package : string
+        +Color : string
+        +Year : int
+        +Mileage : int
+        +Price : int
     }
-
 ```
 
 API will not save data past its lifetime.
