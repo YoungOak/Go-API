@@ -64,13 +64,14 @@ INTEGRATION=1 go test ./tests
 
 ```
 
-A docker container with the image can be used to run the api. Image should weigh about 130MB
+A docker container with the image can be used to run the api. Image should weigh about 7.3MB
 
 ```bash
 docker build -t api:test .
 ```
 
 Then to run it:
+
 ```bash
 docker run -it --rm -p 8080:8080 api:test
 ```
@@ -78,12 +79,12 @@ docker run -it --rm -p 8080:8080 api:test
 And then run in another terminal:
 
 ```bash
-INTEGRATION=1 go test ./tests
-
+INTEGRATION=1 go test -count=1 ./tests
 ```
 
 Example Server output from tests:
-```
+
+```json
 {"time":"2023-08-16T21:37:17.739972853Z","level":"INFO","msg":"Starting server","Address":":8080"}
 {"time":"2023-08-16T21:37:28.903381965Z","level":"INFO","msg":"added new car with id: 'test-car-1'"}
 {"time":"2023-08-16T21:37:28.90414377Z","level":"INFO","msg":"listing all 1 cars"}

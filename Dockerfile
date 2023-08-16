@@ -4,10 +4,14 @@ COPY . /api
 
 WORKDIR /api/
 
-RUN go build -o /app /api/app/ 
+ARG CGO_ENABLED=0 GOOS=linux GOARCH=amd64
 
-FROM debian:11 AS runner
+RUN go build -o /app /api/app/...
 
-COPY --from=builder /app /app
+FROM scratch
+
+COPY --from=builder app app
+
+EXPOSE 8080
 
 ENTRYPOINT [ "/app" ]
